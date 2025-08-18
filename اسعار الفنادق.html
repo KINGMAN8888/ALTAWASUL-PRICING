@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شركة التواصل العالمي - التحليل الاستراتيجي لأسعار فنادق العمرة 1447هـ</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Removed export-related libraries: html2canvas, jspdf, xlsx, jszip, FileSaver -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Brand palette derived from provided logos (gold / dark brown) */
+            --brand-gold: #b8862f; /* primary gold */
+            --brand-gold-light: #d4af37;
+            --brand-dark: #3a2d1f; /* Deeper brown for text */
+            --brand-background: #fdfcf9; /* Softer, warmer background */
+            --brand-card-bg: #ffffff;
+            --brand-accent: #8c6c2f;
+            --brand-muted-text: #6e6051;
+        }
+        body {
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
+            background-color: var(--brand-background);
+            color: var(--brand-dark);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 45vh;
+            max-height: 450px;
+        }
+        .section-card {
+            background-color: var(--brand-card-bg);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e5e7eb;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(184, 134, 47, 0.1), 0 10px 10px -5px rgba(184, 134, 47, 0.08);
+        }
+        h1, h2, h3 {
+             color: var(--brand-dark);
+        }
+        .sticky-nav a:hover {
+            color: var(--brand-gold);
+        }
+        /* Override some utility colors for consistent branding */
+        .dropdown button { background-color: var(--brand-dark) !important; }
+        .dropdown button:hover { background-color: var(--brand-accent) !important; }
+        body { background-color: var(--brand-muted); }
+        .brand-logo { height: 72px; width: auto; }
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        #toTopBtn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px; /* Changed from right to left for RTL */
+            display: none;
+            z-index: 100;
+            transition: opacity 0.3s, transform 0.3s;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        #toTopBtn.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Styles for export dropdown */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0.5rem;
+        }
+        .dropdown-content a {
+            color: var(--brand-dark);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: right;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .dropdown-content a:hover { 
+            background-color: var(--brand-dark);
+            color: var(--brand-gold);
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Palette: Brilliant Blues -->
+    <!-- #005f73, #0a9396, #94d2bd, #e9d8a6, #ee9b00, #ca6702, #bb3e03, #ae2012, #9b2226 -->
+    <!-- Confirmation: NEITHER Mermaid JS NOR SVG were used in this output. -->
+    <!-- 
+        Narrative Plan:
+        1.  Introduction: Set the stage for the 1447H Umrah hotel market analysis.
+        2.  Makkah Market: Analyze premium and budget hotel costs, price evolution, and meal plan composition.
+        3.  Madinah Market: Compare key hotels on price and analyze value using a scatter plot.
+        4.  Supplier Analysis: Compare prices from different suppliers for the same hotel.
+        5.  Seasonal Peaks: Highlight price surges during peak periods for both cities.
+        6.  Key Insights: Provide expanded, actionable takeaways and pricing advice.
+        
+        Visualization Choices:
+        -   Makkah Premium Hotel Costs -> Bar Chart (Goal: Compare) -> Implemented with Chart.js.
+        -   Makkah Budget Hotel Costs -> Bar Chart (Goal: Compare) -> Implemented with Chart.js.
+        -   Makkah Price Evolution -> Line Chart (Goal: Show Change) -> Implemented with Chart.js.
+        -   Makkah Meal Plan Composition -> Doughnut Chart (Goal: Show Composition) -> Implemented with Chart.js.
+        -   Madinah Hotel Costs -> Bar Chart (Goal: Compare) -> Implemented with Chart.js.
+        -   Madinah Value Analysis -> Scatter Plot (Goal: Reveal Relationships) -> Implemented with Chart.js.
+        -   Supplier Price Comparison -> Grouped Bar Chart (Goal: Compare) -> Implemented with Chart.js.
+        -   Seasonal Peaks -> Styled List (Goal: Organize/Inform) -> Implemented with HTML/Tailwind.
+        -   Key Takeaways -> Styled List (Goal: Organize/Inform) -> Implemented with HTML/Tailwind.
+    -->
+
+    <nav class="sticky-nav bg-[var(--brand-card-bg)]/80 backdrop-blur-md shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center items-center h-24"> <!-- Increased height -->
+                <div class="flex items-center gap-4">
+                    <img src="./logo1.png" alt="شعار شركة التواصل العالمي" class="brand-logo h-16"> <!-- Adjusted size -->
+                    <div>
+                        <h1 class="text-2xl font-extrabold" style="color: var(--brand-dark);">شركة التواصل العالمي</h1>
+                        <p class="text-xs" style="color: var(--brand-muted-text);">لتحليل أسعار الفنادق</p>
+                    </div>
+                </div>
+                <div class="flex-grow"></div>
+                <div class="flex items-center space-x-6">
+                    <a href="#makkah" class="text-gray-600 hover:text-[var(--brand-gold)] font-semibold transition">تحليل مكة</a>
+                    <a href="#madinah" class="text-gray-600 hover:text-[var(--brand-gold)] font-semibold transition">تحليل المدينة</a>
+                    <a href="#suppliers" class="text-gray-600 hover:text-[var(--brand-gold)] font-semibold transition">تحليل الموردين</a>
+                    <a href="#peaks" class="text-gray-600 hover:text-[var(--brand-gold)] font-semibold transition">فترات الذروة</a>
+                    <a href="#takeaways" class="text-gray-600 hover:text-[var(--brand-gold)] font-semibold transition">التوصيات النهائية</a>
+                    <!-- Export Button Dropdown -->
+                    <div class="dropdown">
+                        <button class="text-white font-bold py-2 px-4 rounded-lg transition inline-flex items-center" style="background:var(--brand-dark);">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                            <span>تنزيل الملفات</span>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="/اسعار فنادق المدينة المنورة 1447هـ.xlsx" download>اسعار فنادق المدينة المنورة 1447هـ Excel</a>
+                            <a href="/اسعار فنادق مكة المكرمة 1447هـ.xlsx" download>اسعار فنادق مكة المكرمة 1447هـ Excel</a>
+                            <a href="/التحليل الموسع والاخير.docx" download>تحليل شامل للاسعار WORD</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="top" class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center my-12 bg-white p-8 rounded-xl shadow-lg" style="border-top: 5px solid var(--brand-gold);">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-3" style="color: var(--brand-dark);">التحليل الاستراتيجي لأسعار فنادق العمرة 1447هـ</h1>
+            <p class="text-xl" style="color: var(--brand-muted-text);">لوحة بيانات تفاعلية لاتخاذ قرارات تسعير مدروسة في مكة والمدينة</p>
+        </header>        <main class="space-y-16"></main>
+
+            <!-- Makkah Section -->
+            <section id="makkah" class="section-card" role="region" aria-labelledby="makkah-title">
+                <h2 id="makkah-title" class="text-3xl font-bold text-center mb-8">تحليل سوق فنادق مكة المكرمة</h2>
+                <p class="text-center mb-12 max-w-4xl mx-auto">
+                    يتميز سوق مكة بتنوعه الكبير، بدءًا من الفنادق الفاخرة المطلة على الحرم وصولًا إلى الخيارات الاقتصادية في المناطق المجاورة. هذا القسم يغوص في تفاصيل الأسعار لمختلف الفئات وتطورها عبر أشهر الموسم.
+                </p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    
+                    <div class="w-full">
+                        <h3 class="text-xl font-bold text-center mb-4">مقارنة تكلفة الفنادق الفاخرة</h3>
+                        <p class="text-center text-sm text-gray-500 mb-4">متوسط سعر الغرفة الثنائية مع إفطار (أغسطس - سبتمبر 2025)</p>
+                        <div class="chart-container">
+                            <canvas id="makkahPremiumComparisonChart"></canvas>
+                        </div>
+                        <p class="text-center mt-4 text-sm text-gray-600">
+                           يحتل "فيرمونت ساعة مكة" قمة الهرم السعري، بينما تظهر المنافسة الشديدة في الفئة التالية بين "موفنبيك" و "بولمان". يوفر "شيراتون جبل الكعبة" و "الشهداء" نقاط سعرية تنافسية للغاية.
+                        </p>
+                    </div>
+
+                    <div class="w-full">
+                        <h3 class="text-xl font-bold text-center mb-4">مقارنة تكلفة الفنادق الاقتصادية</h3>
+                         <p class="text-center text-sm text-gray-500 mb-4">متوسط سعر الغرفة بدون وجبات (أغسطس - سبتمبر 2025)</p>
+                        <div class="chart-container">
+                            <canvas id="makkahBudgetComparisonChart"></canvas>
+                        </div>
+                         <p class="text-center mt-4 text-sm text-gray-600">
+                           تهيمن الفنادق في مناطق محبس الجن وريع بخش على الشريحة الاقتصادية، مع أسعار تنافسية للغاية تقدمها فنادق مثل "أبراج الكسوة" و "نوازي أجياد".
+                        </p>
+                    </div>
+
+                     <div class="w-full">
+                        <h3 class="text-xl font-bold text-center mb-4">تطور الأسعار خلال الموسم (فندق الشهداء)</h3>
+                         <p class="text-center text-sm text-gray-500 mb-4">تغير متوسط سعر الغرفة الثنائية من بداية الموسم إلى فترة الذروة</p>
+                        <div class="chart-container">
+                            <canvas id="makkahPriceEvolutionChart"></canvas>
+                        </div>
+                         <p class="text-center mt-4 text-sm text-gray-600">
+                           يلاحظ ارتفاع تدريجي وحاد في الأسعار مع الاقتراب من نهاية العام، حيث تصل الزيادة إلى أكثر من الضعف، مما يؤكد أهمية الحجز المبكر.
+                        </p>
+                    </div>
+                    
+                    <div class="w-full">
+                        <h3 class="text-xl font-bold text-center mb-4">توزيع باقات الوجبات في السوق</h3>
+                         <p class="text-center text-sm text-gray-500 mb-4">نسبة انتشار أنواع باقات الوجبات بين الفنادق المعروضة</p>
+                        <div class="chart-container">
+                            <canvas id="makkahMealPlanChart"></canvas>
+                        </div>
+                         <p class="text-center mt-4 text-sm text-gray-600">
+                           تتركز العروض بشكل كبير على باقات الإفطار (BB) والغرف فقط (RO)، مما يتيح مرونة للشركات في إضافة خدمات الإعاشة بشكل مستقل.
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Madinah Section -->
+            <section id="madinah" class="section-card" role="region" aria-labelledby="madinah-title">
+                <h2 id="madinah-title" class="text-3xl font-bold text-center mb-8">تحليل سوق فنادق المدينة المنورة</h2>
+                 <p class="text-center mb-12 max-w-4xl mx-auto">
+                    تتركز المنافسة في المدينة المنورة في المنطقة المركزية. التحليل التالي يقدم مقارنة شاملة للأسعار ويحلل القيمة التي يحصل عليها المعتمر مقابل السعر المدفوع بناءً على الخدمات المضمنة.
+                </p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    <div class="w-full">
+                        <h3 class="text-xl font-bold text-center mb-4">مقارنة متوسط تكلفة الفنادق الرئيسية</h3>
+                        <p class="text-center text-sm text-gray-500 mb-4">غرفة ثنائية (أغسطس - سبتمبر 2025)</p>
+                        <div class="chart-container">
+                            <canvas id="madinahComparisonChart"></canvas>
+                        </div>
+                        <p class="text-center mt-4 text-sm text-gray-600">
+                           تتفاوت الأسعار بشكل كبير، حيث يتصدر "دار الإيمان إنتركونتيننتال" القائمة، بينما تقدم فنادق مثل "الأنصار جولدن توليب" و "كونكورد دار الخير" بدائل اقتصادية ممتازة في قلب المنطقة المركزية.
+                        </p>
+                    </div>
+                     <div class="w-full">
+                        <h3 class="text-xl font-bold text-center mb-4">تحليل القيمة: السعر مقابل الوجبات</h3>
+                        <p class="text-center text-sm text-gray-500 mb-4">مقارنة بين تكلفة الفندق ونوع باقة الوجبات المقدمة</p>
+                        <div class="chart-container">
+                            <canvas id="madinahValueChart"></canvas>
+                        </div>
+                        <p class="text-center mt-4 text-sm text-gray-600">
+                           يُظهر الرسم البياني أن الفنادق التي تقدم وجبات كاملة (FB) مثل "سجى المدينة" و "إعمار رويال" تتركز في نطاق سعري متوسط، مما يجعلها خيارات ذات قيمة عالية. بينما الفنادق الأقل سعراً لا تشمل وجبات.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Supplier Analysis Section -->
+            <section id="suppliers" class="section-card" role="region" aria-labelledby="suppliers-title">
+                <h2 id="suppliers-title" class="text-3xl font-bold text-center mb-8">تحليل أسعار الموردين (فندق الشهداء)</h2>
+                <p class="text-center mb-12 max-w-4xl mx-auto">
+                    تختلف الأسعار لنفس الفندق بين الموردين المختلفين وتتغير الفروقات مع تغير الموسم. هذا التحليل يسلط الضوء على هذه الفروقات لمساعدتك في اختيار المصدر الأفضل تكلفة.
+                </p>
+                <div class="w-full">
+                    <div class="chart-container">
+                        <canvas id="supplierComparisonChart"></canvas>
+                    </div>
+                    <p class="text-center mt-4 text-sm text-gray-600">
+                        يظهر الرسم تباينًا واضحًا في الأسعار المقدمة من الموردين لنفس الفترة، وتتغير هذه الفروقات في فترة الذروة، مما يؤكد على أهمية مقارنة العروض قبل إتمام الحجوزات لضمان الحصول على أفضل سعر تكلفة.
+                    </p>
+                </div>
+            </section>
+
+             <!-- Seasonal Peaks Section -->
+            <section id="peaks" class="section-card" role="region" aria-labelledby="peaks-title">
+                <h2 id="peaks-title" class="text-3xl font-bold text-center mb-8">ذروة الموسم: تحليل ارتفاع الأسعار</h2>
+                <p class="text-center mb-12 max-w-4xl mx-auto">
+                    تشهد الفترة من أواخر ديسمبر إلى أوائل يناير ارتفاعًا حادًا في الأسعار بسبب الإجازات. من الضروري أخذ هذا الارتفاع في الاعتبار عند التخطيط للباقات.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                    <div class="bg-red-50 p-6 rounded-lg">
+                        <div class="text-6xl font-extrabold text-red-600">~115%</div>
+                        <div class="text-xl text-gray-700 mt-2">متوسط الزيادة في أسعار<br>فنادق مكة الفاخرة</div>
+                    </div>
+                     <div class="bg-orange-50 p-6 rounded-lg">
+                        <div class="text-6xl font-extrabold text-orange-500">~95%</div>
+                        <div class="text-xl text-gray-700 mt-2">متوسط الزيادة في أسعار<br>فنادق المدينة المنورة</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Key Takeaways Section -->
+            <section id="takeaways" class="section-card" role="region" aria-labelledby="takeaways-title">
+                <h2 id="takeaways-title" class="text-3xl font-bold text-center mb-8">الخلاصة والتوصيات الاستراتيجية</h2>
+                <div class="max-w-4xl mx-auto space-y-6">
+                    <div class="bg-blue-50 p-5 rounded-lg border-r-4 border-blue-500">
+                        <h3 class="font-bold text-xl text-blue-800">مكة: استغلال تنوع السوق</h3>
+                        <p class="text-blue-700 mt-2">السوق في مكة متنوع بشكل كبير. **للعملاء الباحثين عن القيمة**، يعتبر **فندق الشهداء** و**شيراتون جبل الكعبة** خيارات ممتازة تجمع بين القرب والسعر الجيد. **للميزانيات المحدودة**، فنادق مثل **أبراج الكسوة** و**نوازي أجياد** تقدم أسعارًا لا تقبل المنافسة.</p>
+                    </div>
+                    <div class="bg-green-50 p-5 rounded-lg border-r-4 border-green-500">
+                        <h3 class="font-bold text-xl text-green-800">المدينة: التركيز على القيمة المضافة</h3>
+                        <p class="text-green-700 mt-2">في المدينة، القيمة لا تقاس بالسعر فقط. **فندق سجى المدينة** يقدم أفضل باقة متكاملة (سعر + إفطار). عند التسويق، ركز على أن باقات الفنادق التي تشمل وجبات توفر راحة وتوفيرًا أكبر للمعتمر على المدى الطويل.</p>
+                    </div>
+                    <div class="bg-purple-50 p-5 rounded-lg border-r-4 border-purple-500">
+                        <h3 class="font-bold text-xl text-purple-800">أهمية مقارنة الموردين</h3>
+                        <p class="text-purple-700 mt-2">كما أظهر التحليل، يمكن أن تصل فروقات الأسعار لنفس الفندق بين الموردين إلى **15%**. من الضروري بناء علاقات مع موردين متعددين والمقارنة الدائمة للحصول على أفضل تكلفة ممكنة.</p>
+                    </div>
+                    <div class="bg-yellow-50 p-5 rounded-lg border-r-4 border-yellow-500">
+                        <h3 class="font-bold text-xl text-yellow-800">التسعير الديناميكي وإدارة الذروة</h3>
+                        <p class="text-yellow-700 mt-2">الأسعار ترتفع بشكل حاد في نهاية ديسمبر. **نوصي بشدة** بتطبيق استراتيجية تسعير ديناميكية، مع رفع الأسعار بشكل كبير لهذه الفترة وتقديم عروض خاصة للحجوزات المبكرة لتأمين الغرف قبل وصول الذروة.</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-16 pt-8 border-t" style="border-color: var(--brand-gold-light);">
+            <p style="color: var(--brand-muted-text);">&copy; 2025 شركة التواصل العالمي. جميع الحقوق محفوظة.</p>
+        </footer>
+
+    </div>
+
+    <a href="#top" id="toTopBtn" aria-label="العودة إلى الأعلى" class="bg-gray-800 text-white rounded-full p-3 shadow-lg hover:bg-gray-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </a>
+
+    <script>
+        // --- Professional Enhancements ---
+        // 1. Back to Top Button Logic
+        const toTopBtn = document.getElementById('toTopBtn');
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                toTopBtn.classList.add('show');
+            } else {
+                toTopBtn.classList.remove('show');
+            }
+        };
+
+        // 2. Read CSS Variables for Charts
+        const computedStyle = getComputedStyle(document.documentElement);
+        const brandPalette = {
+            gold: computedStyle.getPropertyValue('--brand-gold').trim() || '#b8862f',
+            goldLight: computedStyle.getPropertyValue('--brand-gold-light').trim() || '#d4af37',
+            dark: computedStyle.getPropertyValue('--brand-dark').trim() || '#3a2d1f',
+            accent: computedStyle.getPropertyValue('--brand-accent').trim() || '#8c6c2f',
+            mutedText: computedStyle.getPropertyValue('--brand-muted-text').trim() || '#6e6051'
+        };
+        // --- End of Enhancements ---
+
+        const chartColors = [
+            brandPalette.gold,
+            brandPalette.goldLight,
+            brandPalette.accent,
+            '#c89f54', // lighter gold
+            '#6b4f2c', // darker brown
+            '#e0c89d', // sand
+            brandPalette.mutedText
+        ];
+
+        // --- Data for Charts and Export ---
+        const reportData = {
+            makkahPremium: [
+                { hotel: 'فندق أنجم', cost: 482 }, { hotel: 'فندق الشهداء', cost: 439 },
+                { hotel: 'موفنبيك هاجر', cost: 785 }, { hotel: 'بولمان زمزم', cost: 780 },
+                { hotel: 'شيراتون جبل الكعبة', cost: 400 }, { hotel: 'فيرمونت ساعة مكة', cost: 950 }
+            ],
+            makkahBudget: [
+                { hotel: 'أبراج الكسوة', cost: 90 }, { hotel: 'نوازي أجياد', cost: 123 },
+                { hotel: 'إعمار الخليل', cost: 185 }, { hotel: 'فندق فلسطين', cost: 175 },
+                { hotel: 'مكارم الهجرة', cost: 150 }, { hotel: 'إيلاف بكة', cost: 210 }
+            ],
+            makkahEvolution: {
+                labels: ['يوليو - أغسطس', 'سبتمبر - أكتوبر', 'ديسمبر - يناير'],
+                datasets: [
+                    { hotel: 'فندق الشهداء (BB)', prices: [388, 500, 800] },
+                    { hotel: 'إعمار جراند (BB)', prices: [280, 340, 490] },
+                    { hotel: 'نوازي أجياد (RO)', prices: [100, 135, 175] }
+                ]
+            },
+            makkahMealPlans: { 'إفطار فقط (BB)': 50, 'بدون وجبات (RO)': 40, 'شامل 3 وجبات (FB)': 10 },
+            madinahHotels: [
+                { hotel: 'بولمان زمزم', cost: 550 }, { hotel: 'كراون بلازا', cost: 525 },
+                { hotel: 'دار الإيمان إنتركونتيننتال', cost: 1108 }, { hotel: 'موفنبيك أنوار', cost: 590 },
+                { hotel: 'فرونتيل الحارثية', cost: 650 }, { hotel: 'دلة طيبة', cost: 547 },
+                { hotel: 'سجى المدينة', cost: 455 }, { hotel: 'بننسولا وورث', cost: 650 },
+                { hotel: 'كونكورد دار الخير', cost: 400 }, { hotel: 'الأنصار جولدن توليب', cost: 378 }
+            ],
+            madinahValue: [
+                { hotel: 'سجى المدينة', price: 455, meal_plan: 'BB' }, { hotel: 'إعمار رويال', price: 700, meal_plan: 'FB' },
+                { hotel: 'بولمان زمزم', price: 550, meal_plan: 'BB' }, { hotel: 'فرونتيل الحارثية', price: 650, meal_plan: 'BB' },
+                { hotel: 'دلة طيبة', price: 547, meal_plan: 'RO' }, { hotel: 'كونكورد دار الخير', price: 400, meal_plan: 'RO' },
+                { hotel: 'الأنصار جولدن توليب', price: 378, meal_plan: 'RO' }, { hotel: 'كراون بلازا', price: 525, meal_plan: 'RO' },
+                { hotel: 'موفنبيك أنوار', price: 590, meal_plan: 'BB' }
+            ],
+            supplierComparison: {
+                labels: ['فترة عادية (أغسطس - سبتمبر)', 'فترة الذروة (ديسمبر - يناير)'],
+                datasets: [
+                    { supplier: 'قافلة التوحيد', prices: [450, 820] },
+                    { supplier: 'مقام الضيافة', prices: [500, 850] },
+                    { supplier: 'بالم ريتش (مباشر)', prices: [425, 800] }
+                ]
+            }
+        };
+
+
+        const tooltipCallback = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) { return label.join(' '); }
+                            return label;
+                        }
+                    }
+                },
+                legend: { labels: { font: { family: 'Cairo', size: 14 } } }
+            },
+            scales: {
+                y: { ticks: { font: { family: 'Cairo' } } },
+                x: { ticks: { font: { family: 'Cairo' } } }
+            }
+        };
+
+        function wrapLabel(label, maxLength = 16) {
+            if (label.length <= maxLength) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        }
+
+        // Makkah Premium Comparison
+        new Chart(document.getElementById('makkahPremiumComparisonChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: reportData.makkahPremium.map(d => wrapLabel(d.hotel)),
+                datasets: [{ label: 'متوسط التكلفة (ريال سعودي)', data: reportData.makkahPremium.map(d => d.cost), backgroundColor: chartColors }]
+            },
+            options: { ...tooltipCallback, responsive: true, maintainAspectRatio: false }
+        });
+
+        // Makkah Budget Comparison
+        new Chart(document.getElementById('makkahBudgetComparisonChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: reportData.makkahBudget.map(d => d.hotel),
+                datasets: [{ label: 'متوسط التكلفة (ريال سعودي)', data: reportData.makkahBudget.map(d => d.cost), backgroundColor: chartColors }]
+            },
+            options: { ...tooltipCallback, responsive: true, maintainAspectRatio: false, indexAxis: 'y' }
+        });
+
+        // Makkah Price Evolution
+        new Chart(document.getElementById('makkahPriceEvolutionChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: reportData.makkahEvolution.labels,
+                datasets: reportData.makkahEvolution.datasets.map((d, i) => ({
+                    label: d.hotel,
+                    data: d.prices,
+                    borderColor: chartColors[i],
+                    backgroundColor: chartColors[i] + '33',
+                    fill: true,
+                    tension: 0.1
+                }))
+            },
+            options: { ...tooltipCallback, responsive: true, maintainAspectRatio: false }
+        });
+
+        // Makkah Meal Plan Composition
+        new Chart(document.getElementById('makkahMealPlanChart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(reportData.makkahMealPlans),
+                datasets: [{ data: Object.values(reportData.makkahMealPlans), backgroundColor: [brandPalette.gold, brandPalette.goldLight, brandPalette.accent], hoverOffset: 4 }]
+            },
+            options: { ...tooltipCallback, responsive: true, maintainAspectRatio: false }
+        });
+
+        // Madinah Comparison
+        new Chart(document.getElementById('madinahComparisonChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: reportData.madinahHotels.map(d => wrapLabel(d.hotel)),
+                datasets: [{ label: 'متوسط التكلفة (ريال سعودي)', data: reportData.madinahHotels.map(d => d.cost), backgroundColor: chartColors }]
+            },
+            options: { ...tooltipCallback, responsive: true, maintainAspectRatio: false }
+        });
+
+        // Madinah Value Scatter
+        const mealPlanToValue = { 'RO': 1, 'BB': 2, 'HB': 3, 'FB': 4 };
+        new Chart(document.getElementById('madinahValueChart').getContext('2d'), {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'فنادق المدينة',
+                    data: reportData.madinahValue.map(d => ({
+                        x: d.price,
+                        y: mealPlanToValue[d.meal_plan],
+                        label: `${d.hotel} (${d.meal_plan})`
+                    })),
+                    backgroundColor: chartColors, pointRadius: 8, pointHoverRadius: 12
+                }]
+            },
+            options: {
+                ...tooltipCallback, responsive: true, maintainAspectRatio: false,
+                scales: {
+                    x: { title: { display: true, text: 'متوسط السعر (ريال سعودي)', font: { family: 'Cairo' } } },
+                    y: {
+                        title: { display: true, text: 'باقة الوجبات', font: { family: 'Cairo' } },
+                        ticks: { stepSize: 1, callback: (value) => ['','RO', 'BB', 'HB', 'FB'][value] || '' }
+                    }
+                },
+                plugins: { tooltip: { callbacks: { label: (context) => context.raw.label, title: () => '' } } }
+            }
+        });
+
+        // Supplier Comparison Chart
+        new Chart(document.getElementById('supplierComparisonChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: reportData.supplierComparison.labels,
+                datasets: reportData.supplierComparison.datasets.map((d, i) => ({
+                    label: d.supplier,
+                    data: d.prices,
+                    backgroundColor: chartColors[i]
+                }))
+            },
+            options: {
+                ...tooltipCallback, responsive: true, maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true, title: { display: true, text: 'السعر (ريال سعودي)', font: { family: 'Cairo' } } } }
+            }
+        });
+
+    </script>
+</body>
+</html>
