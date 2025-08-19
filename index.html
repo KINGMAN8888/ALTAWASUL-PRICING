@@ -21,92 +21,96 @@
             --brand-card-bg: #ffffff;
             --brand-accent: #8c6c2f;
             --brand-muted-text: #6e6051;
+            --brand-muted: #f7f6f4; /* fallback muted background */
         }
-        body {
+
+        /* Base typography & layout */
+        html, body {
+            height: 100%;
             font-family: 'Cairo', sans-serif;
             scroll-behavior: smooth;
             background-color: var(--brand-background);
             color: var(--brand-dark);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 45vh;
-            max-height: 450px;
-        }
+
+        /* Cards */
         .section-card {
             background-color: var(--brand-card-bg);
             border-radius: 1rem;
             padding: 2.5rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
             border: 1px solid #e5e7eb;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
-        .section-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(184, 134, 47, 0.1), 0 10px 10px -5px rgba(184, 134, 47, 0.08);
-        }
-        h1, h2, h3 {
-             color: var(--brand-dark);
-        }
-        .sticky-nav a:hover {
-            color: var(--brand-gold);
-        }
-        /* Override some utility colors for consistent branding */
-        .dropdown button { background-color: var(--brand-dark) !important; }
-        .dropdown button:hover { background-color: var(--brand-accent) !important; }
-        body { background-color: var(--brand-muted); }
-        .brand-logo { height: 72px; width: auto; }
-        .sticky-nav {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
-        #toTopBtn {
-            position: fixed;
-            bottom: 20px;
-            left: 20px; /* Changed from right to left for RTL */
-            display: none;
-            z-index: 100;
-            transition: opacity 0.3s, transform 0.3s;
-            opacity: 0;
-            transform: translateY(10px);
-        }
-        #toTopBtn.show {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        /* Styles for export dropdown */
-        .dropdown {
+        .section-card:hover { transform: translateY(-6px); box-shadow: 0 18px 24px -8px rgba(58,45,31,0.08); }
+
+        h1, h2, h3 { color: var(--brand-dark); line-height: 1.15; }
+
+        /* Chart container responsive sizing */
+        .chart-container {
             position: relative;
-            display: inline-block;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            height: min(46vh, 420px);
+            max-width: 900px;
         }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 0.5rem;
-        }
-        .dropdown-content a {
-            color: var(--brand-dark);
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: right;
-            transition: background-color 0.2s, color 0.2s;
-        }
-        .dropdown-content a:hover { 
-            background-color: var(--brand-dark);
-            color: var(--brand-gold);
-        }
+
+        /* Header / nav styles */
+        .brand-logo { height: 72px; width: auto; }
+        .sticky-nav { position: sticky; top: 0; z-index: 60; backdrop-filter: blur(6px); }
+
+        /* ToTop button (RTL left) */
+        #toTopBtn { position: fixed; bottom: 20px; left: 20px; display: none; z-index: 100; transition: opacity 0.3s, transform 0.3s; opacity: 0; transform: translateY(10px); }
+        #toTopBtn.show { display: block; opacity: 1; transform: translateY(0); }
+
+        /* Dropdown exports */
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-content { display: none; position: absolute; background-color: #fff; min-width: 220px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); z-index: 80; border-radius: 0.5rem; right: 0; }
+        .dropdown-content a { color: var(--brand-dark); padding: 12px 16px; text-decoration: none; display: block; text-align: right; transition: background-color 0.18s, color 0.18s; }
+        .dropdown-content a:hover { background-color: var(--brand-dark); color: var(--brand-gold); }
         .dropdown:hover .dropdown-content { display: block; }
+
+        /* NAV responsive behavior: mobile toggle + animated panel */
+        #navToggle { display: inline-flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: pointer; }
+        #navLinks { display: flex; gap: 1.5rem; align-items: center; }
+
+        /* Mobile-specific: collapse nav links into full-width panel */
+        @media (max-width: 767px) {
+            .brand-logo { height: 56px; }
+            header h1 { font-size: clamp(1.25rem, 4vw, 2rem); }
+            .section-card { padding: 1.25rem; }
+            .chart-container { height: 34vh; max-width: 100%; }
+
+            /* Hide the desktop links and show a collapsible panel */
+            #navToggle { display: inline-flex; }
+            #navLinks { position: absolute; inset: auto 0 0 0; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.995)); flex-direction: column; gap: 0; align-items: stretch; padding: 0.75rem; display: none; border-top: 1px solid rgba(0,0,0,0.04); }
+            #navLinks a { padding: 0.75rem 1rem; border-radius: 0.5rem; color: var(--brand-dark); }
+            #navLinks .dropdown { margin: 0.5rem 1rem; }
+            #navLinks.show { display: flex; }
+            .sticky-nav .container { padding-left: 0.75rem; padding-right: 0.75rem; }
+        }
+
+        /* Tablet and up: comfortable spacing */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .chart-container { height: 38vh; max-width: 780px; }
+            .brand-logo { height: 64px; }
+            .section-card { padding: 1.5rem; }
+        }
+
+        /* Desktop large screens */
+        @media (min-width: 1024px) {
+            .chart-container { height: 46vh; max-width: 1100px; }
+            .brand-logo { height: 80px; }
+            .section-card { padding: 2.5rem; }
+        }
+
+        /* Small visual refinements */
+        .sticky-nav a:hover { color: var(--brand-gold); }
+        .sticky-nav .dropdown button { background-color: var(--brand-dark) !important; }
+        .sticky-nav .dropdown button:hover { background-color: var(--brand-accent) !important; }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -146,7 +150,8 @@
                     </div>
                 </div>
                 <div class="flex-grow"></div>
-                <div class="flex items-center space-x-6">
+                <!-- Desktop links (hidden on mobile) -->
+                <div id="navLinks" class="flex items-center space-x-6">
                     <a href="#makkah" class="text-gray-600 hover:text-[var(--brand-gold)] font-semibold transition">تحليل مكة</a>
                     <a href="#madinah" class="text-gray-600 hover:text-[var(--brand-gold)] font-semibold transition">تحليل المدينة</a>
                     <a href="#suppliers" class="text-gray-600 hover:text-[var(--brand-gold)] font-semibold transition">تحليل الموردين</a>
@@ -167,6 +172,12 @@
                         </div>
                     </div>
                 </div>
+                <!-- Mobile toggle button -->
+                <button id="navToggle" aria-expanded="false" aria-controls="navLinks" class="ml-4 hidden md:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
             </div>
         </div>
     </nav>
@@ -550,6 +561,29 @@
                 scales: { y: { beginAtZero: true, title: { display: true, text: 'السعر (ريال سعودي)', font: { family: 'Cairo' } } } }
             }
         });
+
+        // Mobile nav toggle (accessibility-friendly)
+        (function() {
+            const navToggle = document.getElementById('navToggle');
+            const navLinks = document.getElementById('navLinks');
+            if (!navToggle || !navLinks) return;
+            navToggle.classList.remove('hidden');
+            navToggle.addEventListener('click', () => {
+                const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+                navToggle.setAttribute('aria-expanded', String(!expanded));
+                navLinks.classList.toggle('show');
+            });
+            // Close panel when clicking outside on mobile
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth > 767) return;
+                if (!navLinks.classList.contains('show')) return;
+                const target = e.target;
+                if (!navLinks.contains(target) && target !== navToggle) {
+                    navLinks.classList.remove('show');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        })();
 
     </script>
 </body>
