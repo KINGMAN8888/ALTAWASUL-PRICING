@@ -2,38 +2,38 @@
 
 ALTAWASUL-PRICING
 
-## 📊 لوحة بيانات تحليل أسعار فنادق العمرة 1447هـ
+## 📊 Umrah Hotel Pricing Analytics Dashboard 1447 AH
 
-هذا المشروع عبارة عن لوحة بيانات تفاعلية مبنية على الويب، مصممة لشركة التواصل العالمي لتحليل وتصوير أسعار فنادق العمرة في مكة المكرمة والمدينة المنورة لموسم 1447هـ.
+This project is an interactive web dashboard designed for Altawasul Global to analyze and visualize Umrah hotel prices in Makkah and Madinah for the 1447 AH season.
 
-## 🎯 الدافع (Motivation)
+## 🎯 Motivation
 
-سوق العمرة شديد التنافسية، وتحتاج شركات السياحة إلى اتخاذ قرارات سريعة ومبنية على البيانات لتسعير باقاتها بفعالية. إن مقارنة الأسعار يدويًا من موردين مختلفين وتتبع التغيرات الموسمية أمر مستهلك للوقت وعرضة للأخطاء.
+The Umrah market is highly competitive, and travel companies must make quick, data-driven decisions to price their packages effectively. Manually comparing prices from different suppliers and tracking seasonal changes is time-consuming and error-prone.
 
-تم بناء هذا المشروع لحل هذه المشكلة من خلال توفير لوحة بيانات تفاعلية ومركزية. تقوم الأداة بتصوير بيانات التسعير المعقدة بطريقة مرئية، مما يسهل اكتشاف الاتجاهات، ومقارنة الفنادق والموردين، وتحديد الفرص الاستراتيجية. الهدف هو تمكين فريق التسعير في "شركة التواصل العالمي" من اتخاذ قرارات أكثر ذكاءً وسرعة وربحية.
+This project solves that problem by offering a centralized, interactive dashboard. The tool visualizes complex pricing data, making it easier to spot trends, compare hotels and suppliers, and uncover strategic opportunities. The goal is to empower the pricing team at Altawasul Global to make smarter, faster, and more profitable decisions.
 
-## ✨ الميزات الرئيسية
+## ✨ Key Features
 
-- **تحليلات مرئية تفاعلية**: استخدام مخططات (بيانية، خطية، دائرية، مبعثرة) لمقارنة الأسعار.
-- **تغطية شاملة**: تحليل أسواق مكة والمدينة.
-- **مقارنة الموردين**: كشف الفروقات السعرية لنفس الفندق بين الموردين.
-- **تحليل فترات الذروة**: تسليط الضوء على الارتفاعات الحادة في الأسعار خلال المواسم.
-- **بوابة البيانات (Data Hub)**: إمكانية إضافة بيانات فندقية جديدة بشكل مؤقت لإجراء مقارنات فورية.
-- **مساعد الذكاء الاصطناعي (تجريبي)**: للحصول على ملخصات سريعة للسوق وتوصيات فندقية.
-- **تصميم متجاوب**: يعمل بكفاءة على أجهزة الكمبيوتر المكتبية والهواتف المحمولة.
+- **Interactive visual analytics**: Bar, line, doughnut, and scatter charts for multi-angle comparisons.
+- **Comprehensive coverage**: Dedicated insights for both Makkah and Madinah markets.
+- **Supplier benchmarking**: Highlights price differences for the same hotel across suppliers.
+- **Peak season analysis**: Shows sharp price surges during critical periods.
+- **Data Hub**: Add temporary hotel records for instant comparisons during workshops.
+- **AI assistant (experimental)**: Generates quick market summaries and hotel recommendations.
+- **Responsive design**: Optimized for desktops, tablets, and mobile devices.
 
-## 🚀 كيفية الاستخدام
+## 🚀 How to Use
 
-1. افتح ملف `index.html` في أي متصفح ويب حديث.
-2. سيتم تحميل لوحة البيانات مع التحليلات والرسوم البيانية المعدة مسبقًا.
-3. استخدم شريط التنقل العلوي للانتقال بين أقسام التحليل المختلفة (مكة، المدينة، الموردين، إلخ).
-4. تفاعل مع **بوابة البيانات** لإضافة بيانات أسعار خاصة بك ومقارنتها مع البيانات الحالية.
-5. استخدم **مساعد الذكاء الاصطناعي** لطرح أسئلة والحصول على تحليلات سريعة (يتطلب إعداد مفتاح API في الكود).
+1. Open `index.html` in any modern web browser.
+2. Explore the dashboard; ready-made charts load automatically.
+3. Use the top navigation bar to move between analysis sections (Makkah, Madinah, suppliers, peaks, takeaways).
+4. Add sample hotel records in the **Data Hub** to test scenarios in real time.
+5. Configure the AI assistant by inserting your Gemini `apiKey` in the script to request summaries or tailored advice.
 
-## 🛠️ التقنيات المستخدمة
+## 🛠️ Tech Stack
 
 - **HTML5**
-- **Tailwind CSS**: لإطار عمل التصميم.
-- **JavaScript (ES6+)**: للمنطق التفاعلي.
-- **Chart.js**: لإنشاء الرسوم البيانية.
-- **Moment.js & Moment-Hijri.js**: للتعامل مع التواريخ الهجرية والميلادية.
+- **Tailwind CSS** for styling.
+- **JavaScript (ES6+)** for interactive behavior.
+- **Chart.js** for data visualizations.
+- **Moment.js & Moment-Hijri.js** for Gregorian/Hijri date handling.
