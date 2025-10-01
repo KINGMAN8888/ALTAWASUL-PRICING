@@ -26,26 +26,6 @@
             --brand-muted-text: #6e6051;
             --brand-muted: #f7f6f4; /* fallback muted background */
         }
-        .border-brand-gold-light {
-            border-color: var(--brand-gold-light) !important;
-        }
-
-        .border-top-brand-gold {
-            border-top: 5px solid var(--brand-gold);
-        }
-
-        .brand-dark-text {
-            color: var(--brand-dark);
-        }
-        .brand-muted-text {
-            color: var(--brand-muted-text);
-        }
-        .brand-dark-bg {
-            background-color: var(--brand-dark);
-        }
-        .brand-muted-color {
-            color: var(--brand-muted-text);
-        }
 
         /* Base typography & layout */
         html, body {
@@ -83,7 +63,13 @@
 
         /* Header / nav styles */
         .brand-logo { height: 72px; width: auto; }
-        .sticky-nav { position: sticky; top: 0; z-index: 60; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 60;
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+        }
 
         /* ToTop button (RTL left) */
         #toTopBtn { position: fixed; bottom: 20px; left: 20px; display: none; z-index: 100; transition: opacity 0.3s, transform 0.3s; opacity: 0; transform: translateY(10px); }
@@ -198,6 +184,11 @@
             border-radius:.5rem;
             display:none;
         }
+
+        .text-brand-dark { color: var(--brand-dark); }
+        .text-brand-muted { color: var(--brand-muted-text); }
+        .border-top-brand { border-top: 5px solid var(--brand-gold); }
+        .border-brand-gold-light { border-color: var(--brand-gold-light); }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -228,12 +219,12 @@
 
     <nav class="sticky-nav bg-[var(--brand-card-bg)]/80 backdrop-blur-md shadow-md">
         <div class="container mx-auto px-4">
-                        <h1 class="text-2xl font-extrabold brand-dark-text">شركة التواصل العالمي</h1>
+            <div class="flex justify-center items-center h-24"> <!-- Increased height -->
                 <div class="flex items-center gap-4">
-                        <p class="text-xs brand-muted-text">لتحليل أسعار الفنادق</p>
+                    <img src="./logo1.png" alt="شعار شركة التواصل العالمي" class="brand-logo h-16"> <!-- Adjusted size -->
                     <div>
-                        <h1 class="text-2xl font-extrabold brand-dark-text">شركة التواصل العالمي</h1>
-                        <p class="text-xs brand-muted-text">لتحليل أسعار الفنادق</p>
+                        <h1 class="text-2xl font-extrabold text-brand-dark">شركة التواصل العالمي</h1>
+                        <p class="text-xs text-brand-muted">لتحليل أسعار الفنادق</p>
                     </div>
                 </div>
                 <div class="flex-grow"></div>
@@ -243,10 +234,10 @@
                     <a href="#madinah" class="text-gray-600 hover:text-[var(--brand-gold)] font-semibold transition">تحليل المدينة</a>
                     <a href="#suppliers" class="text-gray-600 hover:text-[var(--brand-gold)] font-semibold transition">تحليل الموردين</a>
                     <a href="#peaks" class="text-gray-600 hover:text-[var(--brand-gold)] font-semibold transition">فترات الذروة</a>
-                        <button class="text-white font-bold py-2 px-4 rounded-lg transition inline-flex items-center brand-dark-bg" title="تنزيل الملفات">
+                    <a href="#takeaways" class="text-gray-600 hover:text-[var(--brand-gold)] font-semibold transition">التوصيات النهائية</a>
                     <!-- Export Button Dropdown -->
                     <div class="dropdown">
-                        <button class="text-white font-bold py-2 px-4 rounded-lg transition inline-flex items-center brand-dark-bg">
+                        <button class="text-white font-bold py-2 px-4 rounded-lg transition inline-flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
@@ -267,14 +258,14 @@
                 </button>
             </div>
         </div>
-                <header class="text-center my-10 bg-white p-8 rounded-xl shadow-lg relative overflow-hidden border-top-brand-gold">
+    </nav>
 
     <div id="top" class="container mx-auto p-4 md:p-8">
 
-                        <p class="text-xl relative brand-muted-color">لوحة بيانات تفاعلية لاتخاذ قرارات تسعير مدروسة في مكة والمدينة</p>
+                <header class="text-center my-10 bg-white p-8 rounded-xl shadow-lg relative overflow-hidden border-top-brand">
                         <div class="absolute inset-0 pointer-events-none opacity-10 bg-gradient-to-bl from-[var(--brand-gold-light)] via-transparent to-[var(--brand-accent)]"></div>
-                        <h1 class="text-4xl md:text-6xl font-extrabold mb-3 relative brand-dark-text">التحليل الاستراتيجي لأسعار فنادق العمرة 1447هـ</h1>
-                        <p class="text-xl relative brand-muted-text">لوحة بيانات تفاعلية لاتخاذ قرارات تسعير مدروسة في مكة والمدينة</p>
+                        <h1 class="text-4xl md:text-6xl font-extrabold mb-3 relative text-brand-dark">التحليل الاستراتيجي لأسعار فنادق العمرة 1447هـ</h1>
+                        <p class="text-xl relative text-brand-muted">لوحة بيانات تفاعلية لاتخاذ قرارات تسعير مدروسة في مكة والمدينة</p>
                         <p id="hijri-date" class="mt-4 text-sm text-gray-600"></p>
                 </header>
 
@@ -549,11 +540,11 @@
                     </div>
                 </div>
             </section>
+
+    </main>
+
     <footer class="text-center mt-16 pt-8 border-t border-brand-gold-light">
-            <p class="brand-muted-text">&copy; 2025 شركة التواصل العالمي. جميع الحقوق محفوظة.</p>
-        </footer>
-    <footer class="text-center mt-16 pt-8 border-t border-brand-gold-light">
-            <p class="brand-muted-text">&copy; 2025 شركة التواصل العالمي. جميع الحقوق محفوظة.</p>
+            <p class="text-brand-muted">&copy; 2025 شركة التواصل العالمي. جميع الحقوق محفوظة.</p>
         </footer>
 
     </div>
