@@ -1,7 +1,4 @@
 # ALTAWASUL-PRICING
-
-ALTAWASUL-PRICING
-
 ## 📊 Umrah Hotel Pricing Analytics Dashboard 1447 AH
 
 This project is an interactive web dashboard designed for Altawasul Global to analyze and visualize Umrah hotel prices in Makkah and Madinah for the 1447 AH season.
