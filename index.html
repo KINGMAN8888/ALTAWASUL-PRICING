@@ -1019,7 +1019,8 @@
         /* Insert Gemini API logic and button wiring (non-destructive) */
         (function GeminiModule(){
 	// ثوابت: ضع مفتاح API هنا أو اتركه فارغاً أثناء التطوير
-	const apiKey = "AIzaSyBPTaGsM4-dr7JnHUHDKJe87MSLtfkaCfw"; // ← ضع المفتاح هنا
+	// المفتاح لا يُكتب في الكود أبداً: يُحفظ محلياً في متصفح المستخدم فقط
+	const apiKey = (localStorage.getItem('gemini_api_key') || '').trim();
 	const apiUrlBase = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent`;
 	const hasApiKey = Boolean(apiKey && apiKey.trim().length > 0);
 
@@ -1033,7 +1034,7 @@
 	async function callGeminiAPI_Gemini(prompt, maxRetries = 3) {
 		// إذا لم يتم تعيين apiKey، أعد رسالة واضحة مباشرة (لا تحاول الاتصال بالإنترنت)
 		if (!hasApiKey) {
-			return "ملاحظة: لم يتم إعداد مفتاح API لـ Gemini. ضع المتغير apiKey داخل الكود لتفعيل المكالمات الحقيقية.";
+			return "ملاحظة: لم يتم إعداد مفتاح API لـ Gemini. من وحدة تحكم المتصفح نفّذ: localStorage.setItem('gemini_api_key', 'مفتاحك') ثم أعد تحميل الصفحة.";
 		}
 
 		const apiUrl = `${apiUrlBase}?key=${encodeURIComponent(apiKey)}`;
