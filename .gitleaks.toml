@@ -1,0 +1,14 @@
+title = "altawasul secrets policy"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "hardcoded-password-assignment"
+description = "Password literal assigned in code (e.g. PASS = '...')"
+regex = '''(?i)\b(pass|passwd|password)\s*=\s*['"][^'"]{4,}['"]'''
+
+[[rules]]
+id = "google-api-key"
+description = "Google API key"
+regex = '''AIza[0-9A-Za-z_\-]{35}'''
